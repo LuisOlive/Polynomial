@@ -1,10 +1,9 @@
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 #ifndef POLYNOMIAL_H
 #define POLYNOMIAL_H
-
-using std::vector;
 
 class Polynomial
 {
@@ -12,12 +11,12 @@ public:
   // equivalent to x
   static const Polynomial x;
   // polynomial coefficients, indexes are the x grades
-  vector<double> coeffs;
+  std::vector<double> coeffs;
 
   Polynomial();
+  Polynomial(const Polynomial& p);
   Polynomial(const double n);
-  Polynomial(const Polynomial &p);
-  Polynomial(const vector<double> coeffs);
+  Polynomial(const std::vector<double> coeffs);
   Polynomial(const std::initializer_list<double> coeffs);
   ~Polynomial();
 
@@ -37,33 +36,80 @@ public:
   */
   int size() const;
 
+  /*
+    the symbolic derivative of polynomial using definition
+  */
   Polynomial derivative() const;
-  // don't forget to print the " + c" :)
+  
+  /* 
+    the symbolic integral of polynomial using definition
+    don't forget to print the " + c" :)
+  */
   Polynomial integral() const;
 
-  double operator[](const int i) const;
-  double &operator[](const int i);
+  /*
+    returns the numeric value of the cofficients vector, i is the grade of x you want to get coefficient
+  */
+  double operator [] (const int i) const;
   
-  Polynomial operator=(const Polynomial &p);
-  Polynomial operator()(const double n);
+  /*
+    able to set and get item from coffeicients vector, 
+    every positive value is accepted, but be careful, because it creates items to set it to 0
+    recomendet to use with existing values or special cases, better to use const version
+  */
+  double &operator [] (const int i);
+  
+  /*
+    evaluates the polynomial numeric value at x
+  */
+  double operator () (const double x) const;
 
-  Polynomial operator+(const Polynomial &p);
-  Polynomial operator-(const Polynomial &p);
-  Polynomial operator*(const Polynomial &p);
-  Polynomial operator/(const Polynomial &p);
-  Polynomial operator%(const Polynomial &p);
-  Polynomial operator^(const int n);
+  /*
+    calculates the division of polynomials and writes it in the reference params
+  */
+  void writeDivision(const Polynomial& divisor, Polynomial& resultTarget, Polynomial& residualTarget);
 
-  Polynomial operator+=(const Polynomial &p);
-  Polynomial operator-=(const Polynomial &p);
-  Polynomial operator*=(const Polynomial &p);
-  Polynomial operator/=(const Polynomial &p);
-  Polynomial operator%=(const Polynomial &p);
-  Polynomial operator^=(const int n);
+  /*
+    raises the polynomial
+    remember. this operator is not always for this operation, but is useful here
+  */
+  Polynomial operator ^ (int n) const;
+  
+  /*
+    equivalent to multiply by x^n
+  */
+  Polynomial operator << (const int n) const;
+
+  /*
+    equivalent to divide by x^n
+  */
+  Polynomial operator >> (const int n) const;
+
+  Polynomial operator = (const Polynomial& p);
+  Polynomial operator + (const Polynomial& p) const;
+  Polynomial operator - (const Polynomial& p) const;
+  Polynomial operator * (const Polynomial& p) const;
+  Polynomial operator / (const Polynomial& p) const;
+  Polynomial operator % (const Polynomial& p) const;
+  
+  template<class T> Polynomial operator + (const T& x) const { return *this + Polynomial(x); }
+  template<class T> Polynomial operator - (const T& x) const { return *this - Polynomial(x); }
+  template<class T> Polynomial operator * (const T& x) const { return *this * Polynomial(x); }
+  template<class T> Polynomial operator / (const T& x) const { return *this / Polynomial(x); }
+  template<class T> Polynomial operator % (const T& x) const { return *this % Polynomial(x); }
+
+  template<class T> Polynomial operator  = (const T& x) { return *this = Polynomial(x); }
+  template<class T> Polynomial operator += (const T& x) { return *this = *this + x; }
+  template<class T> Polynomial operator -= (const T& x) { return *this = *this - x; }
+  template<class T> Polynomial operator *= (const T& x) { return *this = *this * x; }
+  template<class T> Polynomial operator /= (const T& x) { return *this = *this / x; }
+  template<class T> Polynomial operator %= (const T& x) { return *this = *this % x; }
+
+  Polynomial operator^=(const int n) { return *this = *this ^ n; }
+  Polynomial operator<<=(const int n) { return *this = *this << n; }
+  // Polynomial operator>>=(const int n) { return *this = *this >> n; }
 };
 
-std::ostream &operator<<(std::ostream &cout, const Polynomial &p);
-
-Polynomial pow(const Polynomial &p, const double n);
+std::ostream &operator <<(std::ostream &cout, const Polynomial& p);
 
 #endif
