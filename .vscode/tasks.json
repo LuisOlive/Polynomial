@@ -2,14 +2,15 @@
   "tasks": [
     {
       "type": "cppbuild",
-      "label": "C/C++: cpp.exe compilar archivo activo",
-      "command": "C:\\MinGW\\bin\\cpp.exe",
+      "label": "C/C++: g++.exe compilar archivo activo",
+      "command": "g++",
       "args": [
-        "-fdiagnostics-color=always",
+        "${fileBasename}",
         "-g",
-        "${file}",
+        "lib/*.cpp",
+        "-fdiagnostics-color=always",
         "-o",
-        "${fileDirname}\\${fileBasenameNoExtension}.exe"
+        "${fileBasenameNoExtension}"
       ],
       "options": {
         "cwd": "${fileDirname}"

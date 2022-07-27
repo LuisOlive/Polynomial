@@ -15,7 +15,7 @@ auto &x = Polynomial::x;
 int main()
 {
   // inicializers();
-  // operations();
+  operations();
   // negativeIndexes();
   division();
   return 0;
@@ -45,7 +45,7 @@ void inicializers()
 
 void operations()
 {
-  Polynomial p = {1, 6, 3}, q = {4, 7, -3, 5};
+  Polynomial p = {4, 7, -3, 5}, q = {1, 6, 3};
 
   cout << "p(x) = " << p << endl;
   cout << "q(x) = " << q << endl;
@@ -56,6 +56,7 @@ void operations()
   cout << "(p - q)(x) = " << (p - q) << endl;
   cout << "(p * q)(x) = " << (p * q) << endl;
   cout << "(p / q)(x) = " << (p / q) << endl;
+  cout << "(p % q)(x) = " << (p % q) << endl;
 
   cout << endl;
 }
@@ -100,10 +101,11 @@ void negativeIndexes()
 
 void division()
 {
-  Polynomial p = {34, 53, 61, 52, 27, 10, 0, 0, 0}, q = {4, 3, 2}, result, residual;
+  Polynomial p = {34, 53, 61, 52, 27, 10, 0, 0, 0}, q = {4, 3, 2}, s = {8,5,7}, result, residual;
 
   cout << "p(x) = " << p << endl;
-  cout << "q(x) = " << q << endl << endl;
+  cout << "q(x) = " << q << endl;
+  cout << "s(x) = " << s << endl << endl;
 
   p.writeDivision(q, result, residual);
 
@@ -114,4 +116,9 @@ void division()
   
   cout << "(q / p)(x) = " << result << endl;
   cout << "(q % p)(x) = " << residual << endl << endl;
+  
+  q.writeDivision(s, result, residual);
+  
+  cout << "(q / s)(x) = " << result << endl;
+  cout << "(q % s)(x) = " << residual << endl << endl;
 }

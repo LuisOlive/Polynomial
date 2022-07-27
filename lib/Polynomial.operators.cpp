@@ -10,8 +10,8 @@ Polynomial Polynomial::operator+(const Polynomial &p) const
 {
   Polynomial ans;
 
-  for (int i = 0; i < size() || i < p.size(); i++)
-    ans[i] = coeffs[i] + p[i];
+  for (int i = 0; i <= grade() || i <= p.grade(); i++)
+    ans[i] = (*this)[i] + p[i];
 
   return ans;
 }
@@ -20,8 +20,8 @@ Polynomial Polynomial::operator-(const Polynomial &p) const
 {
   Polynomial ans;
 
-  for (int i = 0; i < size() || i < p.size(); i++)
-    ans[i] = coeffs[i] - p[i];
+  for (int i = 0; i <= grade() || i <= p.grade(); i++)
+    ans[i] = (*this)[i] - p[i];
 
   return ans;
 }
@@ -30,8 +30,8 @@ Polynomial Polynomial::operator*(const Polynomial &p) const
 {
   Polynomial ans;
 
-  for (int i = 0; i < size(); i++)
-    for (int j = 0; j < p.size(); j++)
+  for (int i = 0; i <= grade(); i++)
+    for (int j = 0; j <= p.grade(); j++)
       ans[i + j] += coeffs[i] * p[j];
 
   return ans;
@@ -39,35 +39,50 @@ Polynomial Polynomial::operator*(const Polynomial &p) const
 
 Polynomial Polynomial::operator/(const Polynomial &p) const
 {
-  Polynomial ans;
-  
-  for(int i=0; i<=grade(); i++)
-    ans[i] = coeffs[i];
-  
+  Polynomial ans, _;
+  writeDivision(p, ans, _);
   return ans;
 }
 
-Polynomial Polynomial::operator ^ (int n) const { // 3
+Polynomial Polynomial::operator%(const Polynomial &p) const
+{
+  Polynomial ans, _;
+  writeDivision(p, _, ans);
+  return ans;
+}
+
+Polynomial Polynomial::operator^(int n) const
+{
   Polynomial ans = 1;
 
-  while (n--) // 3; 2; 1;
+  while (n > 0)
     ans *= *this;
-  
+
   return ans;
 }
 
 Polynomial Polynomial::operator<<(const int n) const
 {
-  return *this * (Polynomial::x ^ n);
+  Polynomial ans;
+  
+  for(int i = 0; i <= grade() && i + n >= 0; i++)
+    ans[i + n] = coeffs[i];
+
+  return ans;
+}
+
+Polynomial Polynomial::operator>>(const int n) const
+{
+  return (*this) << (-n);
 }
 
 double Polynomial::operator()(const double x) const
 {
   double ans = 0;
-  
-  for(int i=0; i<size(); i++) 
+
+  for (int i = 0; i < size(); i++)
     ans += coeffs[i] * pow(x, i);
-  
+
   return ans;
 }
 
@@ -84,9 +99,9 @@ double &Polynomial::operator[](const int i)
 
 double Polynomial::operator[](const int i) const
 {
-  if(i < 0 && -i <= grade() + 1)
+  if (i < 0 && -i <= grade() + 1)
     return coeffs[grade() + 1 + i];
-  
+
   if (i >= size() || i < 0)
     return 0;
 
@@ -96,7 +111,7 @@ double Polynomial::operator[](const int i) const
 std::ostream &operator<<(std::ostream &cout, const Polynomial &p)
 {
   bool hasPrinted = false;
-  
+
   for (int i = p.grade(); i >= 0; i--)
   {
     if (p[i])
@@ -108,16 +123,16 @@ std::ostream &operator<<(std::ostream &cout, const Polynomial &p)
 
       if (i > 1)
         cout << "^" << i;
-        
+
       hasPrinted = true;
     }
 
     if (i >= 1 && p[i - 1])
       cout << " + ";
   }
-  
-  if(!hasPrinted)
+
+  if (!hasPrinted)
     cout << 0;
-  
+
   return cout;
 }

@@ -10,6 +10,7 @@ class Polynomial
 public:
   // equivalent to x
   static const Polynomial x;
+  
   // polynomial coefficients, indexes are the x grades
   std::vector<double> coeffs;
 
@@ -67,7 +68,7 @@ public:
   /*
     calculates the division of polynomials and writes it in the reference params
   */
-  void writeDivision(const Polynomial& divisor, Polynomial& resultTarget, Polynomial& residualTarget);
+  void writeDivision(const Polynomial& divisor, Polynomial& resultTarget, Polynomial& residualTarget) const;
 
   /*
     raises the polynomial
@@ -105,9 +106,14 @@ public:
   template<class T> Polynomial operator /= (const T& x) { return *this = *this / x; }
   template<class T> Polynomial operator %= (const T& x) { return *this = *this % x; }
 
-  Polynomial operator^=(const int n) { return *this = *this ^ n; }
-  Polynomial operator<<=(const int n) { return *this = *this << n; }
-  // Polynomial operator>>=(const int n) { return *this = *this >> n; }
+  Polynomial operator  ^= (const int n) { return *this = *this  ^ n; }
+  Polynomial operator <<= (const int n) { return *this = *this << n; }
+  Polynomial operator >>= (const int n) { return *this = *this >> n; }
+
+  /*
+    calculates the polynomials division limit using l'hopital rule
+  */
+  static double limit(const Polynomial& numerator, const Polynomial& denominator, const double x);
 };
 
 std::ostream &operator <<(std::ostream &cout, const Polynomial& p);
