@@ -52,16 +52,21 @@ public:
     returns the numeric value of the cofficients vector, i is the grade of x you want to get coefficient
   */
   double operator [] (const int i) const;
-  
+
   /*
-    able to set and get item from coffeicients vector, 
+    able to set and get item from coffeicients vector,
     every positive value is accepted, but be careful, because it creates items to set it to 0
-    recomendet to use with existing values or special cases, better to use const version
+    recomended to use with existing values or special cases, better to use const version
+
+    negative values: like python, -1 returns the last element that was not 0 (the grade elm)
+    values greater than current size: fill the coefficients array with zeros, use it with caution
   */
   double &operator [] (const int i);
-  
+
   /*
     evaluates the polynomial numeric value at x
+    negative values: like python, -1 returns the last element that was not 0 (the grade elm)
+    values greater than current size: returns 0
   */
   double operator () (const double x) const;
 
@@ -109,13 +114,7 @@ public:
   Polynomial operator  ^= (const int n) { return *this = *this  ^ n; }
   Polynomial operator <<= (const int n) { return *this = *this << n; }
   Polynomial operator >>= (const int n) { return *this = *this >> n; }
-
-  /*
-    calculates the polynomials division limit using l'hopital rule
-  */
-  static double limit(const Polynomial& numerator, const Polynomial& denominator, const double x);
 };
 
 std::ostream &operator <<(std::ostream &cout, const Polynomial& p);
-
 #endif
