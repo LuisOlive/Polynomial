@@ -25,7 +25,7 @@ int Polynomial::grade() const
   int i = coeffs.size() - 1;
 
   // solving a bug, if the last terms are zeros, the polynomial shouldn't count them
-  while (coeffs[i] == 0)
+  while (coeffs[i] == 0 && i > 0)
     i--;
 
   return i;

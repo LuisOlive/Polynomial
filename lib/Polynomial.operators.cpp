@@ -55,17 +55,17 @@ Polynomial Polynomial::operator^(int n) const
 {
   Polynomial ans = 1;
 
-  while (n > 0)
+  while (n-- > 0)
     ans *= *this;
-
+  
   return ans;
 }
 
 Polynomial Polynomial::operator<<(const int n) const
 {
   Polynomial ans;
-  
-  for(int i = 0; i <= grade() && i + n >= 0; i++)
+
+  for (int i = grade(); i + n >= 0 && i >= 0; i--)
     ans[i + n] = coeffs[i];
 
   return ans;
@@ -73,7 +73,7 @@ Polynomial Polynomial::operator<<(const int n) const
 
 Polynomial Polynomial::operator>>(const int n) const
 {
-  return (*this) << (-n);
+  return *this << -n;
 }
 
 double Polynomial::operator()(const double x) const

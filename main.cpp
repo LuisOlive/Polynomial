@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdlib>
 #include "lib/Polynomial.h"
 
 using namespace std;
@@ -14,10 +15,12 @@ auto &x = Polynomial::x;
 
 int main()
 {
-  // inicializers();
-  operations();
+  system("clear");
+  inicializers();
+  // operations();
   // negativeIndexes();
-  division();
+  // division();
+  system("pause");
   return 0;
 }
 
@@ -41,6 +44,8 @@ void inicializers()
   print("D", d);
   print("E", e);
   print("F", f);
+  
+  printData("B", b);
 }
 
 void operations()
@@ -68,16 +73,15 @@ void print(const string name, const Polynomial p)
 
 void printData(const string name, const Polynomial p)
 {
-  cout << name << "(x) = " << p << endl
-       << endl;
+  cout << name << "(x) = " << p << endl << endl;
 
-  cout << "grade of " << name << ": " << p.grade() << endl
-       << endl;
+  cout << "grade of " << name << ": " << p.grade() << endl << endl;
 
-  cout
-      << name << "'(x) = " << p.derivative() << endl
-      << "|" << name << "(x)dx = " << p.integral() << " + c" << endl
-      << endl;
+  cout << name << "'(x) = " << p.derivative() << endl;
+  cout << "|" << name << "(x)dx = " << p.integral() << " + c" << endl << endl;
+  
+  print("(" + name + " << 3)", p << 3);
+  print("(" + name + " >> 2)", p >> 2);
 
   for (int i = 0; i <= 5; i++)
     cout << name << "(" << i << ") = " << p(i) << endl;
